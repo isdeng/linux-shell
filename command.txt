@@ -1,1 +1,2 @@
 #uname -a ##查看系统、cup、内核信息
+#head -n 1 /etc/issue #查看操作系统版本
