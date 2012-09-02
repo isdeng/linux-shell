@@ -1,2 +1,8 @@
+####Nginx php mysql###
+USE="threads mysql apache2 curl crypt cgi ctype fpm pcre session xmlwriter xsl bcmath calendar sqlite3 force-cgi-redirect soap mhash unicode xml json ftp sqlite gd truetype xmlreader xmlrpc zip mysqli" emerge -av php
+
+###apache mysql php###
+yum -y install httpd php mysql mysql-server php-mysql httpd-manual mod_ssl mod_perl mod_auth_mysql php-mcrypt php-gd php-xml php-mbstring php-ldap php-pear php-xmlrpc mysql-connector-odbc mysql-devel libdbi-dbd-mysql
+
 #uname -a ##查看系统、cup、内核信息
 #head -n 1 /etc/issue #查看操作系统版本
