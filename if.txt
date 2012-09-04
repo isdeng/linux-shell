@@ -1,0 +1,38 @@
+﻿#!/bin/sh
+if [ -f fred.c ];then
+	....
+fi
+
+or
+
+if [ -f fred.c ]
+then
+	...
+fi
+
+[]之间必须包含空格
+
+###字符串比较###
+string1 = string2      如果两个字符串相同，则返回结果为真
+string1 != string2     如果两个字符串不相同，则返回结果为真
+-n string      如果字符串不为空，返回结果为真
+-z string 	   如果字符串为null（一个空字符串）则结果为真
+
+###算术比较###
+expression1 -eq expression2 如果两个表达式相等，则结果为真
+expression1 -ne expression2 如果两个表达式不相等，则结果为真
+expression1 -gt expression2 如果expression1大于expression2，则结果为真
+expression1 -ge expression2 如果expression1大于等于expression2，则结果为真
+expression1 -lt expression2 如果expression1小于expression2，则结果为真
+expression1 -le expression2 如果expression1小于等于expression2，则结果为真
+
+###文件条件测试###
+-d file 如果文件是一个目录，则结果为真
+-e file 如果文件存在则结果为真。要注意的是，历史上-e选项不可移植，所以通常用的是-f选项
+-f file 如果文件是一个普通文件则结果为真
+-g file 如果文件的set-group-id位被设置则结果为真
+-r file 如果文件可读，则结果为真
+-s file 如果文件的大小不为0，则结果为真
+-u file 如果文件的set-user-id位被设置，则结果为真
+-w file 如果文件可写，则结果为真
+-x file 如果文件可执行，则结果为真
