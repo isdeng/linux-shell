@@ -8,3 +8,19 @@ do
 	fi
 done
 exit 0
+
+
+###变量的使用
+#!/bin/sh
+myvar="hi,world,i'm back!"
+echo $myvar;
+echo "$myvar";
+echo '$myvar';
+echo \$myvar;
+
+echo "now.Enter some text"
+read myvar
+
+echo '$myvar' now equals $myvar;
+
+exit 0;
