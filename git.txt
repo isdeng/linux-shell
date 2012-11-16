@@ -1,7 +1,7 @@
 #安装
 1. 增加yum repository
 
-在CentOS中，在不增加repository情?下是找不到Git的套件的，所以需要增加一个repository。
+在CentOS中，在不增加repository情况下是找不到Git的套件的，所以需要增加一个repository。
 
 rpm -Uvh http://yum.beta.gist.com/gist/centos/5/RPM/epel-release-5-3.noarch.rpm
 
