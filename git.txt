@@ -1,25 +1,25 @@
-#°²×°
-1. Ôö¼Óyum repository
+#å®‰è£…
+1. å¢åŠ yum repository
 
-ÔÚCentOSÖĞ£¬ÔÚ²»Ôö¼ÓrepositoryÇé?ÏÂÊÇÕÒ²»µ½GitµÄÌ×¼şµÄ£¬ËùÒÔĞèÒªÔö¼ÓÒ»¸örepository¡£
+åœ¨CentOSä¸­ï¼Œåœ¨ä¸å¢åŠ repositoryæƒ…?ä¸‹æ˜¯æ‰¾ä¸åˆ°Gitçš„å¥—ä»¶çš„ï¼Œæ‰€ä»¥éœ€è¦å¢åŠ ä¸€ä¸ªrepositoryã€‚
 
 rpm -Uvh http://yum.beta.gist.com/gist/centos/5/RPM/epel-release-5-3.noarch.rpm
 
-2. °²×°Git, git-webÒÔ¼°gitosis
+2. å®‰è£…Git, git-webä»¥åŠgitosis
 yum -y install git gitweb gitosis
 
-#ÅäÖÃgit
+#é…ç½®git
 git config --global user.name "isdeng"
 git config --global user.email "448454120@qq.com"
 
-## Ìá½»
+## æäº¤
 git add file
-git commit file -m "ËµÃ÷"
+git commit file -m "è¯´æ˜"
 git push -u origin master
 
-#¼ì³ö
+#æ£€å‡º
 git clone https://
 
-¼ì³ö±¨ssl´íÎó£¬Ö´ĞĞ£ºgit config --global http.sslVerify false
+æ£€å‡ºæŠ¥sslé”™è¯¯ï¼Œæ‰§è¡Œï¼šgit config --global http.sslVerify false
 
 
