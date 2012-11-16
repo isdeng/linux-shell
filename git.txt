@@ -13,8 +13,11 @@ git config --global user.name "isdeng"
 git config --global user.email "448454120@qq.com"
 
 ## 提交
-git add file
-git commit file -m "说明"
+touch README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/isdeng/test.git
 git push -u origin master
 
 #检出
