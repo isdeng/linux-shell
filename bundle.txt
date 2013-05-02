@@ -1,0 +1,120 @@
+Base Install
+yum install -y sudo make gcc gcc-c++ cmake lsof telnet nc rsync wget vim unzip bind-utils traceroute ntpdate tcpdump gettext 
+
+Sudo
+visudo
+fzming ALL=(ALL:ALL) ALL
+fzming ALL=NOPASSWD:/bin/ls,/usr/bin/yum,/usr/bin/less
+
+Demo
+Defaults    logfile=/var/log/sudo.log, timestamp_timeout=1, passwd_tries=1, passwd_timeout=1
+#Defaults   requiretty
+Defaults    !env_reset
+Defaults    env_keep = "COLORS DISPLAY HOSTNAME HISTSIZE INPUTRC KDEDIR \
+                        LS_COLORS MAIL PS1 PS2 QTDIR USERNAME \
+                        LANG LC_ADDRESS LC_CTYPE LC_COLLATE LC_IDENTIFICATION \
+                        LC_MEASUREMENT LC_MESSAGES LC_MONETARY LC_NAME LC_NUMERIC \
+                        LC_PAPER LC_TELEPHONE LC_TIME LC_ALL LANGUAGE LINGUAS \
+                        _XKB_CHARSET XAUTHORITY SSH_AUTH_SOCK"
+root   ALL=(ALL) ALL
+fzming ALL=(ALL) NOPASSWD:ALL,!/bin/su
+
+安全
+sshd
+sudo vim /etc/ssh/sshd_config
+ListenAddress 172.16.0.0/16
+PasswordAuthentication no
+PermitEmptyPasswords no
+PermitRootLogin no
+PubkeyAuthentication yes
+GSSAPIAuthentication no
+GSSAPICleanupCredentials no
+UseDNS no
+ssh
+ssh-keygen -t rsa -f id_rsa
+authorized_keys
+chmod 644 authorized_keys
+TimeOut
+sudo vim /etc/profile
+TMOUT=1800
+
+
+优化
+优化启动时间
+sudo vi /etc/grub.conf
+timeout=0
+rhgb quiet biosdevname=0
+优化wget
+msgunfmt /usr/share/locale/zh_CN/LC_MESSAGES/wget.mo -o - | sed 's/eta(英国中部时间)/ETA/' | msgfmt - -o /tmp/zh_CN.mo
+sudo cp /tmp/zh_CN.mo /usr/share/locale/zh_CN/LC_MESSAGES/wget.mo
+KVM
+确定机器有VT
+egrep '(vmx|svm)' /proc/cpuinfo 
+安装KVM
+sudo yum -y install kvm bridge-utils
+lsmod | grep kvm
+使用KVM
+qemu-img create -f qcow2 host1.img 8G
+qemu-img create -f raw centos.img 5G
+qemu-kvm -localtime -m 512 -hda host1.img -cdrom winxp.iso -boot d -no-acpi
+qemu-kvm -localtime -m 512 -hda host1.img -cdrom test/CentOS-6.4-x86_64-minimal.iso -boot d -no-acpi -vnc 0:0
+
+QunarDemo
+virt-install -n test -r 4096 --cpu host -c ./CentOS-6.2-x86_64-bin-DVD1.iso --disk path=./centos-6.2-66.img,device=disk,bus=virtio,size=80,format=qcow2 --vnc --vncport=5903 --vnclisten=0.0.0.0 --network bridge:br0
+
+ 虚拟机管理
+virt-manager
+ tsclient
+Ubuntu 下成功使用tightvnc连接
+
+Nginx
+wget http://nginx.org/download/nginx-1.2.8.tar.gz 
+wget https://github.com/agentzh/set-misc-nginx-module/archive/master.zip -O ngx_set_misc.zip
+http://wiki.nginx.org/HttpSetMiscModule
+wget https://github.com/simpl/ngx_devel_kit/archive/master.zip -O ngx_devel_kit.zip
+wget https://github.com/agentzh/headers-more-nginx-module/archive/master.zip -O headers-more-nginx.zip
+wget http://luajit.org/download/LuaJIT-2.0.1.tar.gz
+make PREFIX=/home/j/luajit
+make install PREFIX=/home/j/luajit
+
+sudo yum install -y pcre-devel openssl-devel 
+
+export LUAJIT_LIB=/home/j/luajit/lib
+export LUAJIT_INC=/home/j/luajit/include/luajit-2.0
+
+./configure --prefix=/home/j/nginx --with-ld-opt=-Wl,-rpath,/home/j/luajit/lib --with-http_ssl_module --with-http_random_index_module --add-module=../ngx_devel_kit-master/  --add-module=../echo-nginx-module-master/ --add-module=../lua-nginx-module-master/  --add-module=../set-misc-nginx-module-master/ --add-module=../headers-more-nginx-module-master/
+
+MySQL
+sudo yum install -y cmake ncurses-devel bison
+wget http://www.percona.com/redir/downloads/Percona-Server-5.5/Percona-Server-5.5.30-30.2/source/Percona-Server-5.5.30-rel30.2.tar.gz
+cmake -DCMAKE_INSTALL_PREFIX=/home/j/mysql -DMYSQL_DATADIR=/home/j/mysql/data \
+-DWITH_ARCHIVE_STORAGE_ENGINE=ON \
+-DWITH_BLACKHOLE_STORAGE_ENGINE=ON\
+-DWITH_FEDERATED_STORAGE_ENGINE=ON\
+-DINSTALL_LAYOUT=STANDALONE\
+-DDEFAULT_CHARSET=utf8\
+-DDEFAULT_COLLATION=utf8_general_ci\
+-DEXTRA_CHARSETS=all\
+-DWITH_INNOBASE_STORAGE_ENGINE=1\
+-DWITH_READLINE=1\
+-DENABLED_LOCAL_INFILE=1\
+-DWITH_DEBUG=0
+
+sudo mkdir /home/j/mysql/log 
+sudo useradd -M mysql
+sudo chown mysql:mysql -R /home/j/mysql
+sudo chmod a=r-x+X,u+Xrw -R /home/j/mysql/
+sudo chmod a-rx,u+Xrw -R /home/j/mysql/data /home/j/mysql/log 
+sudo chmod +x -R /home/j/mysql/bin/ /home/j/mysql/scripts
+sudo cp support-files/mysql.server /etc/init.d/mysql
+sudo chmod +x /etc/init.d/mysql
+
+sudo /home/j/mysql/scripts/mysql_install_db --defaults-extra-file=/etc/my.cnf
+sudo service mysql start
+
+sudo vim /etc/profile
+export PATH=/home/j/mysql/bin:$PATH
+
+delete from mysql.user;
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'127.0.0.1' IDENTIFIED BY 'fzming' WITH GRANT OPTION;
+FLUSH PRIVILEGES;

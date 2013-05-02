@@ -4,6 +4,10 @@ USE="threads mysql apache2 curl crypt cgi ctype fpm pcre session xmlwriter xsl b
 ###apache mysql php###
 yum -y install httpd php mysql mysql-server php-mysql httpd-manual mod_ssl mod_perl mod_auth_mysql php-mcrypt php-gd php-xml php-mbstring php-ldap php-pear php-xmlrpc mysql-connector-odbc mysql-devel libdbi-dbd-mysql
 
+手动编译php：
+sudo ./configure --prefix=/home/j/php --with-mysql=/home/j/mysql/ --with-xml --with-config-file-path=/home/php/conf --with-mysqli=/home/j/mysql/bin/mysql_config
+
+sudo ./configure --prefix/home/j/nginx --with-http_ssl_module --with--http_flv_module --with-http_gzip_static_module 
 
 系统
 #uname -a 			  ##查看系统、cup、内核信息
