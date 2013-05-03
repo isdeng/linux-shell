@@ -3,8 +3,8 @@ yum install -y sudo make gcc gcc-c++ cmake lsof telnet nc rsync wget vim unzip b
 
 Sudo
 visudo
-fzming ALL=(ALL:ALL) ALL
-fzming ALL=NOPASSWD:/bin/ls,/usr/bin/yum,/usr/bin/less
+dengliangpeng ALL=(ALL:ALL) ALL
+dengliangpeng ALL=NOPASSWD:/bin/ls,/usr/bin/yum,/usr/bin/less
 
 Demo
 Defaults    logfile=/var/log/sudo.log, timestamp_timeout=1, passwd_tries=1, passwd_timeout=1
@@ -17,7 +17,7 @@ Defaults    env_keep = "COLORS DISPLAY HOSTNAME HISTSIZE INPUTRC KDEDIR \
                         LC_PAPER LC_TELEPHONE LC_TIME LC_ALL LANGUAGE LINGUAS \
                         _XKB_CHARSET XAUTHORITY SSH_AUTH_SOCK"
 root   ALL=(ALL) ALL
-fzming ALL=(ALL) NOPASSWD:ALL,!/bin/su
+dengliangpeng ALL=(ALL) NOPASSWD:ALL,!/bin/su
 
 安全
 sshd
@@ -116,5 +116,5 @@ sudo vim /etc/profile
 export PATH=/home/j/mysql/bin:$PATH
 
 delete from mysql.user;
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'127.0.0.1' IDENTIFIED BY 'fzming' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'127.0.0.1' IDENTIFIED BY 'dengliangpeng' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
