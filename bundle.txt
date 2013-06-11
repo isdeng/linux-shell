@@ -1,5 +1,5 @@
 Base Install
-yum install -y sudo make gcc gcc-c++ cmake lsof telnet nc rsync wget vim unzip bind-utils traceroute ntpdate tcpdump gettext 
+sudo yum install -y sudo make gcc gcc-c++ cmake lsof telnet nc rsync wget vim unzip bind-utils traceroute ntpdate tcpdump gettext
 
 Sudo
 visudo
@@ -82,6 +82,9 @@ sudo yum install -y pcre-devel openssl-devel
 export LUAJIT_LIB=/home/j/luajit/lib
 export LUAJIT_INC=/home/j/luajit/include/luajit-2.0
 
+pcre:yum -y install pcre-devel
+openssl:yum install openssl-devel
+
 ./configure --prefix=/home/j/nginx --with-ld-opt=-Wl,-rpath,/home/j/luajit/lib --with-http_ssl_module --with-http_random_index_module --add-module=../ngx_devel_kit-master/  --add-module=../echo-nginx-module-master/ --add-module=../lua-nginx-module-master/  --add-module=../set-misc-nginx-module-master/ --add-module=../headers-more-nginx-module-master/
 
 MySQL
@@ -118,3 +121,39 @@ export PATH=/home/j/mysql/bin:$PATH
 delete from mysql.user;
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'127.0.0.1' IDENTIFIED BY 'dengliangpeng' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
+
+修复数据表：
+REPAIR TABLE xxx
+
+编译：php
+sudo yum -y install libjpeg libjpeg-devel libpng libpng-devel libxml2 libxml2-devel zlib zlib-devel glibc glibc-devel glib2 glib2-devel freetype freetype-devel gd-devel libmcrypt libmcrypt-devel mcrypt mhash php-mbstring
+ 
+./configure --prefix=/home/j/php --with-config-file-path=/home/j/php/etc/ --enable-fpm --enable-calendar --enable-ftp --with-zlib --with-bz2 --with-curl --with-gd --enable-exif --with-jpeg-dir --with-png-dir --with-freetype-dir --enable-mbstring --with-mysql=/home/j/mysql/ --with-mysqli --with-pdo-mysql --enable-zip --enable-bcmath --with-bz2 --with-config-file-scan-dir=/home/j/php/etc/php.d/ --mandir=/home/j/php/man
+拷贝和修改php配置文件 
+# cp php.ini-production /usr/local/php/lib/php.ini 或是/usr/local/lib/php.ini
+# cp /usr/local/php/etc/php-fpm.conf.default /usr/local/php/etc/php-fpm.conf
+# /usr/local/php/bin/php --ini   //测试ini文件是否加载
+##编译php end
+./php-fpm -c ../etc/php.ini 
+1、先下载memcached 和libevent。
+libevent 最新的稳定版: wget http://monkey.org/~provos/libevent-1.4.14b-stable.tar.gz
+memcached 最新的稳定版：wget  http://memcached.googlecode.com/files/memcached-1.4.5.tar.gz
+
+2、安装libevent
+tar zxvf libevent-1.4.14b-stable.tar.gz
+cd libevent-1.4.14b-stable
+./configure --prefix=/usr/local/libevent/
+make
+make install
+
+3、安装memcached 
+先安装libevent
+yum -y install libevent
+tar zxvf  memcached-1.4.5.tar.gz
+cd memcached-1.4.5
+ ./configure --prefix=/home/j/memcached --with-libevent=/usr/lib64
+make 
+make install
+
+##安装libmemcached
+./configure --prefix=/home/j/libmemcached --with-memcached

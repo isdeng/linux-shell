@@ -1,0 +1,67 @@
+查看进程占用的内存：
+top -b -n 1 |grep nginx|awk '{print "cpu:"$9"%","mem:"$10"%"}'
+
+批量替换文件内容
+sed -i "s/oldstring/newstring/g" `grep "oldstring" -rl ./`
+
+远程访问mysql
+my.cnf  --bind-address=0.0.0.0
+
+复制文件到远程主机：
+scp -r -P端口 ./dir user@远程ip:远程目录
+
+##
+tcpdump -s0 -l -w - dst port 3306 |strings -7
+
+#同步文件
+--del 删除远程服务器文件。重新同步本地所有文件。
+rsync -rzcv --chmod="a=rX,u+w" --exclude=.svn --rsync-path="sudo rsync" ./source.juesheng.com 114.113.229.223:/home/j/web/
+
+#同步中教服
+rsync -rzcvP -e "ssh -p 22229" --chmod="a=rX,u+w" --exclude=.svn --exclude-from="../checkfile"  /home/j/web/www.cesc.com.cn/newcountry juesheng@114.113.229.247:/app/www/www.cesc.com.cn
+
+#删除目录中的.svn
+sudo find . -type d -name ".svn" | sudo xargs rm -rf
+
+#mysql 批量替换内容
+update j_addonarticle set body=replace(body,"/uploads/allimg/130306/","http://source.juesheng.com/juesheng/main/uploads/allimg/130607/");
+
+#批量替换内容
+sed -i "s/oldstring/newstring/g" `grep oldstring -rl dir`
+
+#启动memcache
+./memcached -d -m 100 -u root -l 127.0.0.1 -p 12000 -c 256 -P /home/j/memcahce/
+参数说明
+-d选项是启动一个守护进程.
+-m是分配给Memcache使用的内存数量，单位是MB，我这里是10MB.
+-u是运行Memcache的用户，我这里是root.
+-l是监听的服务器IP地址，如果有多个地址的话，我这里指定了服务器的IP地址192.168.0.200.
+-p是设置Memcache监听的端口，我这里设置了12000，最好是1024以上的端口.
+-c选项是最大运行的并发连接数，默认是1024，我这里设置了256，按照你服务器的负载量来设定.
+-P是设置保存Memcache的pid文件，我这里是保存在 /tmp/memcached.pid.
+
+#查看5分钟之内生成的文件
+find . -cmin -5
+
+#memcache 错误处理办法
+libtool: Version mismatch error.  This is libtool 2.4, but the
+libtool: definition of this LT_INIT comes from an older release.
+libtool: You should recreate aclocal.m4 with macros from libtool 2.4
+libtool: and run autoconf again.
+make: *** [memcache.lo] 错误 63
+处理方法：
+
+##防火墙
+sudo iptables -I INPUT 4 -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
+开机有效
+vi /etc/sysconfig/iptables
+
+##查看端口被什么应用占用
+lsof -i:端口
+
+
+##确认软件是否被安装
+yum list installed | grep php
+
+##替换内容
+find . -type f -exec  sed -i 's/j_track/in_track/g' {} \;
